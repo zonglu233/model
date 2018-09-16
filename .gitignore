@@ -103,9 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-one.py
+
 ~$InputData.xlsx
-.idea/workspace.xml
-.idea/workspace.xml
-.idea/vcs.xml
 .idea/
