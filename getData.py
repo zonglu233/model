@@ -24,9 +24,12 @@ def getPucks():
         if leave > start and arrive < end:
             transfer_id = pucks_sheet.cell(i, 0).value
             arrive_point = int((start - arrive).seconds / 60)
+            leave_point = int((leave - start).seconds / 60)
             if arrive < start:
                 arrive_point = -arrive_point
-            leave_point = int((leave - start).seconds / 60)
+                cost_time = arrive_point
+            else:
+                cost_time = leave_point - arrive_point
             arrive_line = pucks_sheet.cell(i, 3).value
             arrive_type = pucks_sheet.cell(i, 4).value
             fly_type = pucks_sheet.cell(i, 5).value
@@ -48,7 +51,8 @@ def getPucks():
                 "arrive_line": arrive_line,
                 "arrive_type": arrive_type,
                 "leave_line": leave_line,
-                "leave_type": leave_type
+                "leave_type": leave_type,
+                "cost_time": cost_time
             }
             pucks.append(transfer)
     return pucks
