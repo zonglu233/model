@@ -23,13 +23,13 @@ def getPucks():
         # 查找20号的航班线路
         if leave > start and arrive < end:
             transfer_id = pucks_sheet.cell(i, 0).value
-            arrive_point = int((start - arrive).seconds / 60)
+            arrive_point = int((arrive - start).seconds / 60)
             leave_point = int((leave - start).seconds / 60)
             if arrive < start:
-                arrive_point = -arrive_point
-                cost_time = arrive_point
+                cost_time = int(leave_point)
             else:
-                cost_time = leave_point - arrive_point
+                cost_time = int(leave_point - arrive_point)
+            # print(transfer_id, cost_time)
             arrive_line = pucks_sheet.cell(i, 3).value
             arrive_type = pucks_sheet.cell(i, 4).value
             fly_type = pucks_sheet.cell(i, 5).value
@@ -52,7 +52,8 @@ def getPucks():
                 "arrive_type": arrive_type,
                 "leave_line": leave_line,
                 "leave_type": leave_type,
-                "cost_time": cost_time
+                "cost_time": cost_time,
+                "open": 0
             }
             pucks.append(transfer)
     return pucks
@@ -97,7 +98,8 @@ def getGates():
             "gate_area": gate_area,
             "arrive_type": arrive_type,
             "leave_type": leave_type,
-            "body_type": body_type
+            "body_type": body_type,
+            "city_num": 0
         }
         gates.append(gate)
     return gates
