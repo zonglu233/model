@@ -6,9 +6,11 @@ import datetime
 wide_body = ["332", "333", "33E", "33H", "33L", "773"]
 narrow_body = ["319", "320", "321", "323", "325", "738", "73A", "73E", "73H", "73L"]
 
-workbook = xlrd.open_workbook("./InputData.xlsx")
+workbook = xlrd.open_workbook("./InputData-bak.xlsx")
 
-def getPucks():
+daymins = 1440
+
+def get_pucks():
 
     pucks_sheet = workbook.sheet_by_name('Pucks')
     prows = pucks_sheet.nrows - 1
@@ -23,8 +25,18 @@ def getPucks():
         # 查找20号的航班线路
         if leave > start and arrive < end:
             transfer_id = pucks_sheet.cell(i, 0).value
-            arrive_point = int((arrive - start).seconds / 60)
-            leave_point = int((leave - start).seconds / 60)
+            # 20号之前到的飞机
+            # print(arrive.day)
+            if arrive.day < 20:
+                arrive_point = 0
+            else:
+                arrive_point = int((arrive - start).seconds / 60)
+            # 21号飞走的飞机
+            if leave.day > 20:
+                leave_point = 1440
+            else:
+                leave_point = int((leave - start).seconds / 60)
+            # print(leave_point,leave,leave_point,arrive,arrive_point)
             if arrive < start:
                 cost_time = int(leave_point)
             else:
@@ -43,6 +55,11 @@ def getPucks():
                 body_type = "N"
             leave_line = pucks_sheet.cell(i, 8).value
             leave_type = pucks_sheet.cell(i, 9).value
+            # transfer = [
+            #     transfer_id, arrive_point, leave_point, body_type,
+            #     arrive_line, arrive_type, leave_line, leave_type,
+            #     cost_time, 0
+            # ]
             transfer = {
                 "transfer_id": transfer_id,
                 "arrive_point": arrive_point,
@@ -52,14 +69,13 @@ def getPucks():
                 "arrive_type": arrive_type,
                 "leave_line": leave_line,
                 "leave_type": leave_type,
-                "cost_time": cost_time,
-                "open": 0
+                "cost_time": cost_time
             }
             pucks.append(transfer)
     return pucks
 
 
-def getGates():
+def get_gates():
     gates_sheet = workbook.sheet_by_name('Gates')
     grows = gates_sheet.nrows - 1
     gates = []
@@ -99,7 +115,8 @@ def getGates():
             "arrive_type": arrive_type,
             "leave_type": leave_type,
             "body_type": body_type,
-            "city_num": 0
+            "next_point": 0,
+            "rest_time": 1440
         }
         gates.append(gate)
     return gates
