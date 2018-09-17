@@ -6,14 +6,15 @@ import datetime
 wide_body = ["332", "333", "33E", "33H", "33L", "773"]
 narrow_body = ["319", "320", "321", "323", "325", "738", "73A", "73E", "73H", "73L"]
 
-workbook = xlrd.open_workbook("./InputData-bak.xlsx")
+# workbook = xlrd.open_workbook("./InputData-bak.xlsx")
+workbook = xlrd.open_workbook("./InputData.xlsx")
 
 daymins = 1440
 
 def get_pucks():
 
     pucks_sheet = workbook.sheet_by_name('Pucks')
-    prows = pucks_sheet.nrows - 1
+    prows = pucks_sheet.nrows
     start = datetime.datetime.strptime("2018-01-20 0:0", "%Y-%m-%d %H:%M")
     end = datetime.datetime.strptime("2018-01-21 0:0", "%Y-%m-%d %H:%M")
 
