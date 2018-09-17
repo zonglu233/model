@@ -78,7 +78,7 @@ def get_pucks():
 
 def get_gates():
     gates_sheet = workbook.sheet_by_name('Gates')
-    grows = gates_sheet.nrows - 1
+    grows = gates_sheet.nrows
     gates = []
     for i in range(1, grows):
         gate_id = gates_sheet.cell(i, 0).value
