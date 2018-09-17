@@ -3,7 +3,6 @@
 interval = 45
 daymins = 1440
 
-
 # 看看NG集合中是否有可用登机口
 def match_cg(puck, gate):
     # print(puck, gate)
@@ -33,6 +32,7 @@ def find_bg_max(puck, gates):
                 index = i
     return index
 
+
 def init_generation(pucks, gates):
     num_gate = len(gates)
     num_puck = len(pucks)
@@ -41,9 +41,8 @@ def init_generation(pucks, gates):
     for item in pucks:
         sum_cost = sum_cost + item['cost_time']
     # print(sum_cost, num_gate)
-    AVE = int(daymins - sum_cost/num_gate)
 
-    AVE = 100
+    AVE = interval * 2
 
     # 读取航班信息
     NG = gates  # 空闲登机口集合
@@ -56,7 +55,7 @@ def init_generation(pucks, gates):
                 if BG[k]['rest_time'] > AVE:
                     free = un_lock(pucks[i], BG[k])
                     if free:
-                        print(BG[k]['gate_id'], "满足解封条件")
+                        # print(BG[k]['gate_id'], "满足解封条件")
                         unlocklist.append(k)
             if len(unlocklist):
                 unlocklist.sort(reverse=True)
@@ -97,10 +96,10 @@ def init_generation(pucks, gates):
     fixed = 0
     for item in pucks:
         if 'gate' in item:
-            print(item['transfer_id'], " - ", item['gate'])
+            # print(item['transfer_id'], " - ", item['gate'])
             fixed = fixed + 1
         else:
-            print(item['transfer_id'], " - 临时停机坪")
+            # print(item['transfer_id'], " - 临时停机坪")
             temp = temp + 1
 
     print("固定转机个数：", fixed)
