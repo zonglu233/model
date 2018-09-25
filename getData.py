@@ -40,6 +40,8 @@ def get_pucks():
             # print(leave_point,leave,leave_point,arrive,arrive_point)
             if arrive < start:
                 cost_time = int(leave_point)
+            elif leave > end:
+                cost_time = int(1440 - arrive_point)
             else:
                 cost_time = int(leave_point - arrive_point)
             # print(transfer_id, cost_time)
